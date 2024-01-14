@@ -1,41 +1,32 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'xokimovoybek@gmail.com';
+/* https://api.telegram.org/bot6833596743:AAEF3WUWpPHX7ddoZ2NEl55D_XImrXJ73BY/getUpdates,
+sdgfsdgsd */
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+$name = $_POST['user_name'];
+$phone = $_POST['user_phone'];
+$email = $_POST['user_email'];
+$comment = $_POST['user_comment'];
+$token = "6833596743:AAEF3WUWpPHX7ddoZ2NEl55D_XImrXJ73BY"
+$chat_id = "-4119219800"
+$arr = array(
+  '💁‍♂️ Ismi: ' = $name,
+  '📱 Telefon: ' = $phone,
+  '✉ Email: ' = $email,
+  '📜 Izoh: ' = $comment,
+);
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+foreach ($arr as $key => $value) {
+  $txt .= "<b>" .$key ."</b>" .$value. "%0A"
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  
-  // $contact->smtp = array(
-  //   'host' => 'OybekCoder.com',
-  //   'username' => 'OybekCoder',
-  //   'password' => 'OybekCoder666666',
-  //   'port' => '587'
-  // );
-  
+};
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+$sendToTelegram = fopen("https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_id}&parse_mode=html&text={$txt}", "r")
 
-  echo $contact->send();
+if ($sendToTelegram) {
+  header('Location: rahmat.html');
+} else {
+  echo "Error";
+}
+
 ?>
